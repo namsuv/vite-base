@@ -1,21 +1,13 @@
 import { configureAuth } from 'react-query-auth';
 
+import { AuthResponse, LoginCredentials, RegisterCredentials } from '@/features/auth';
+import storage from '@/utils/storage';
 import {
-  getUserProfile,
-  registerWithEmailAndPassword,
-  loginWithEmailAndPassword,
-  AuthResponse,
   logout,
 } from './api';
-import storage from '@/utils/storage';
-import { z } from 'zod';
-import { LoginCredentials } from '@/features/auth/components/SignIn';
-
-export type RegisterCredentials = {
-  email: string;
-  name: string;
-  password: string;
-};
+import { loginWithEmailAndPassword } from '@/features/auth/api/login';
+import { registerWithEmailAndPassword } from '@/features/auth/api/register';
+import { getUserProfile } from '@/features/auth/api/getUser';
 
 async function handleUserResponse(data: AuthResponse) {
   const { jwt, user } = data;

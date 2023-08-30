@@ -1,27 +1,18 @@
-import { Link, useNavigate } from "react-router-dom"
-import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useNavigate } from "react-router-dom"
 
+import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
-  FormLabel,
-  FormMessage,
+  FormMessage
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { useForm } from "react-hook-form"
-import { Button } from "@/components/ui/button"
 import { useLogin } from "@/lib/auth"
-
-const formSchema = z.object({
-  email: z.string().min(1, 'Required'),
-  password: z.string().min(1, 'Required'),
-})
-
-export type LoginCredentials = z.infer<typeof formSchema>
+import { useForm } from "react-hook-form"
+import { LoginCredentials, loginSchema } from "../validators"
 
 const SignIn = () => {
   const login = useLogin();
@@ -29,7 +20,7 @@ const SignIn = () => {
 
   // 1. Define your form.
   const form = useForm<LoginCredentials>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "",
       password: "",
@@ -50,7 +41,7 @@ const SignIn = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <FormField
           control={form.control}
           name="email"
@@ -75,7 +66,7 @@ const SignIn = () => {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button type="submit" disabled={login.isLoading}>Submit</Button>
       </form>
     </Form>
   )

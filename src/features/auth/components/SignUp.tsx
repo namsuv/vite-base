@@ -1,16 +1,14 @@
-import { Link, useNavigate } from "react-router-dom"
-import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 
+import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
-  FormLabel,
-  FormMessage,
+  FormMessage
 } from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
 import {
   Select,
   SelectContent,
@@ -18,52 +16,35 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { Input } from "@/components/ui/input"
+import { useRegister } from "@/lib/auth"
 import { useForm } from "react-hook-form"
-import { Button } from "@/components/ui/button"
-import { useLogin } from "@/lib/auth"
-
-const formSchema = z.object({
-  email: z.string().min(1, 'Required').email(),
-  password: z.string().min(1, 'Required'),
-  username: z.string().min(1, 'Required'),
-  role: z.enum(['ADMIN', 'USER'], {
-    errorMap: () => ({
-      message: "Role must be one of 'admin' pr 'user'",
-    }),
-  }),
-})
-
-export type LoginCredentials = z.infer<typeof formSchema>
+import { RegisterCredentials, signUpSchema } from "../validators"
 
 const SignUp = () => {
-  const login = useLogin();
-  const navigate = useNavigate();
+  const register = useRegister();
 
   // 1. Define your form.
-  const form = useForm<LoginCredentials>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<RegisterCredentials>({
+    resolver: zodResolver(signUpSchema),
     defaultValues: {
       email: "",
       password: "",
+      username: "",
+      role: "ADMIN",
     },
   })
 
   // 2. Define a submit handler.
-  function onSubmit(values: LoginCredentials) {
+  function onSubmit(values: RegisterCredentials) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values)
-    login.mutate(values, {
-      onSuccess: () => {
-        navigate('/app')
-      }
-    })
+    register.mutate(values)
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <FormField
           control={form.control}
           name="username"
@@ -121,7 +102,7 @@ const SignUp = () => {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button type="submit" disabled={register.isLoading} >Submit</Button>
       </form>
     </Form>
   )

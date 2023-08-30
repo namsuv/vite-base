@@ -1,12 +1,13 @@
 import { Navigate, useRoutes } from 'react-router-dom';
 
 import { useUser } from '@/lib/auth';
+import useProtectedRoutes from '@/hooks/useProtectedRoutes';
 
-import { protectedRoutes } from './protected';
 import { publicRoutes } from './public';
 
 export const AppRoutes = () => {
   const { data: user } = useUser();
+  const { protectedRoutes } = useProtectedRoutes()
 
   const commonRoutes = [{ path: '/', element: <Navigate to={'sign-in'} /> }];
 
