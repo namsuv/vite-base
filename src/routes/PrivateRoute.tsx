@@ -10,7 +10,7 @@ const PrivateRoute = () => {
       <Suspense
         fallback={
           <div className="h-full w-full flex items-center justify-center">
-            <div className="spin-in-180" />
+            <div className="spinner" />
           </div>
         }
       >

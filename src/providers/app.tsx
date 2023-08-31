@@ -33,7 +33,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
     <React.Suspense
       fallback={
         <div className="flex items-center justify-center w-screen h-screen">
-          <div className="spin-in-180" />
+          <div className="spinner" />
         </div>
       }
     >
@@ -42,7 +42,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
           <QueryClientProvider client={queryClient}>
             <Notifications />
             <AuthLoader
-              renderLoading={() => <div>Loading ...</div>}
+              renderLoading={() => <div className='loader'></div>}
             // renderUnauthenticated={() => <AuthScreen />}
             >
               <Router>{children}</Router>
