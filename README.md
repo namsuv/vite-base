@@ -1,15 +1,15 @@
 # Features
-• structures
-• providers
-• routes
-• authenticated users
+• structures <br />
+• providers <br />
+• routes <br />
+• authenticated users <br />
 • login
 
 # Tech Stacks
-• ReactJS
-• TailwindCSS
-• React Hook Form
-• Zod
-• Zustand
-• Typescript
-• React-query
+• ReactJS <br />
+• TailwindCSS <br /> 
+• React Hook Form <br />
+• Zod <br />
+• Zustand <br />
+• Typescript <br />
+• React-query <br />
